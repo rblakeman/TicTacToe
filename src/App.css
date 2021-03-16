@@ -1,76 +1,76 @@
 .App {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #282c34;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #282c34;
+    min-height: 100vh;
 }
 
 .Row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .Tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    font-size: 48px;
 }
 
 .O {
-  color: #924abc;
+    color: #924abc;
 }
 
 .X {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 .Winner {
-  color: #fbdc61;
+    color: #fbdc61;
 }
 
 .LeftRight {
-  border-top: solid 5px white;
-  border-bottom: solid 5px white;
+    border-top: solid 5px white;
+    border-bottom: solid 5px white;
 }
 
 .TopBottom {
-  border-left: solid 5px white;
-  border-right: solid 5px white;
+    border-left: solid 5px white;
+    border-right: solid 5px white;
 }
 
 .Middle {
-  border: solid 5px white;
+    border: solid 5px white;
 }
 
 /* .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 .App-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 } */
