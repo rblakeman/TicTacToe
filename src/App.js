@@ -21,6 +21,8 @@ class App extends Component {
             turn: false,
             gameover: false
         };
+
+        console.log('last updated: March 16, 2021');
     }
 
     handleClick(id) {
