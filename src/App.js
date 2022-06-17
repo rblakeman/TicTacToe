@@ -22,7 +22,7 @@ class App extends Component {
             gameover: false
         };
 
-        console.log('last updated: March 16, 2021');
+        console.log('last updated: June 17, 2022');
     }
 
     handleClick(id) {
