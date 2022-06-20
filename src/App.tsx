@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 
-let gameboard = ['', '', '', '', '', '', '', '', ''];
+const X_PIECE = 'X';
+const O_PIECE = 'O';
+
+type gamepieceID = typeof X_PIECE | typeof O_PIECE | '';
+
+let gameboard: gamepieceID[] = ['', '', '', '', '', '', '', '', ''];
 let winners = [
     [0, 1, 2],
     [3, 4, 5],
@@ -13,8 +18,13 @@ let winners = [
     [2, 4, 6]
 ];
 
-class App extends Component {
-    constructor(props) {
+type Props = { };
+type State = {
+    turn: boolean;
+    gameover: boolean;
+};
+class App extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -22,29 +32,33 @@ class App extends Component {
             gameover: false
         };
 
-        console.log('last updated: June 17, 2022');
+        console.log('last updated: June 20, 2022');
     }
 
-    handleClick(id) {
+    handleClick(id: number) {
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
                 if (this.state.turn) {
-                    gameboard[id] = 'O';
-                    document.getElementById(id).classList.add('O');
+                    gameboard[id] = O_PIECE;
+                    // @ts-expect-error IGNORE
+                    document.getElementById(id).classList.add(O_PIECE);
                 } else {
-                    gameboard[id] = 'X';
-                    document.getElementById(id).classList.add('X');
+                    gameboard[id] = X_PIECE;
+                    // @ts-expect-error IGNORE
+                    document.getElementById(id).classList.add(X_PIECE);
                 }
 
                 winners.forEach((pair) => {
                     if (
-                        gameboard[pair[0]] === gameboard[pair[1]] &&
-            gameboard[pair[1]] === gameboard[pair[2]]
+                        gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]
                     ) {
                         if (gameboard[pair[0]] !== '') {
                             this.setState({ gameover: true });
+                            // @ts-expect-error IGNORE
                             document.getElementById(pair[0]).classList.add('Winner');
+                            // @ts-expect-error IGNORE
                             document.getElementById(pair[1]).classList.add('Winner');
+                            // @ts-expect-error IGNORE
                             document.getElementById(pair[2]).classList.add('Winner');
                             // return true //break
                         }
@@ -63,21 +77,30 @@ class App extends Component {
                     <div
                         className="Tile"
                         id="0"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[0]}
                     </div>
                     <div
                         className="Tile TopBottom"
                         id="1"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[1]}
                     </div>
                     <div
                         className="Tile"
                         id="2"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[2]}
                     </div>
@@ -86,21 +109,30 @@ class App extends Component {
                     <div
                         className="Tile LeftRight"
                         id="3"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[3]}
                     </div>
                     <div
                         className="Tile Middle"
                         id="4"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[4]}
                     </div>
                     <div
                         className="Tile LeftRight"
                         id="5"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[5]}
                     </div>
@@ -109,21 +141,30 @@ class App extends Component {
                     <div
                         className="Tile"
                         id="6"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[6]}
                     </div>
                     <div
                         className="Tile TopBottom"
                         id="7"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[7]}
                     </div>
                     <div
                         className="Tile"
                         id="8"
-                        onClick={(ev) => this.handleClick(ev.target.id)}
+                        onClick={(ev) => {
+                            const id = (ev.target as HTMLElement).id;
+                            this.handleClick(Number(id));
+                        }}
                     >
                         {gameboard[8]}
                     </div>
