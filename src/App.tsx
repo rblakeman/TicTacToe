@@ -35,40 +35,43 @@ class App extends Component<Props, State> {
         console.log('last updated: June 20, 2022');
     }
 
-    handleClick(id: number) {
+    calculateMove(id: number) {
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
                 if (this.state.turn) {
                     gameboard[id] = O_PIECE;
-                    // @ts-expect-error IGNORE
-                    document.getElementById(id).classList.add(O_PIECE);
+                    document.getElementById(String(id))!.classList.add(O_PIECE);
                 } else {
                     gameboard[id] = X_PIECE;
-                    // @ts-expect-error IGNORE
-                    document.getElementById(id).classList.add(X_PIECE);
+                    document.getElementById(String(id))!.classList.add(X_PIECE);
                 }
 
-                winners.forEach((pair) => {
+                winners.every((pair) => {
                     if (
                         gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]
                     ) {
                         if (gameboard[pair[0]] !== '') {
                             this.setState({ gameover: true });
-                            // @ts-expect-error IGNORE
-                            document.getElementById(pair[0]).classList.add('Winner');
-                            // @ts-expect-error IGNORE
-                            document.getElementById(pair[1]).classList.add('Winner');
-                            // @ts-expect-error IGNORE
-                            document.getElementById(pair[2]).classList.add('Winner');
-                            // return true //break
+                            document.getElementById(String(pair[0]))!.classList.add('Winner');
+                            document.getElementById(String(pair[1]))!.classList.add('Winner');
+                            document.getElementById(String(pair[2]))!.classList.add('Winner');
+
+                            return false;
                         }
                     }
+
+                    return true;
                 });
 
                 this.setState({ turn: !this.state.turn });
             }
         }
     }
+
+    handleTileClick = (ev: React.MouseEvent<HTMLDivElement>) => {
+        const id = (ev.target as HTMLElement).id;
+        this.calculateMove(Number(id));
+    };
 
     render() {
         return (
@@ -77,30 +80,21 @@ class App extends Component<Props, State> {
                     <div
                         className="Tile"
                         id="0"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[0]}
                     </div>
                     <div
                         className="Tile TopBottom"
                         id="1"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[1]}
                     </div>
                     <div
                         className="Tile"
                         id="2"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[2]}
                     </div>
@@ -109,30 +103,21 @@ class App extends Component<Props, State> {
                     <div
                         className="Tile LeftRight"
                         id="3"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[3]}
                     </div>
                     <div
                         className="Tile Middle"
                         id="4"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[4]}
                     </div>
                     <div
                         className="Tile LeftRight"
                         id="5"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[5]}
                     </div>
@@ -141,30 +126,21 @@ class App extends Component<Props, State> {
                     <div
                         className="Tile"
                         id="6"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[6]}
                     </div>
                     <div
                         className="Tile TopBottom"
                         id="7"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[7]}
                     </div>
                     <div
                         className="Tile"
                         id="8"
-                        onClick={(ev) => {
-                            const id = (ev.target as HTMLElement).id;
-                            this.handleClick(Number(id));
-                        }}
+                        onClick={this.handleTileClick}
                     >
                         {gameboard[8]}
                     </div>
