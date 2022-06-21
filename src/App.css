@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: #282c34;
     min-height: 100vh;
 }
@@ -10,6 +11,12 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 300px;
+
+    border-top: 5px solid white;
+}
+.Row:first-child {
+    border-top: none;
 }
 
 .Tile {
@@ -18,33 +25,37 @@
     justify-content: center;
     width: 100px;
     height: 100px;
+
+    border-right: 5px solid white;
+}
+.Tile:last-child {
+    border-right: none;
+}
+
+.GamePiece {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
     font-size: 48px;
+    cursor: pointer;
+}
+.GamePiece:hover:enabled {
+    background-color: #505050;
+}
+.GamePiece:disabled {
+    cursor: default;
 }
 
 .O {
     color: #924abc;
 }
-
 .X {
     color: #61dafb;
 }
-
 .Winner {
     color: #fbdc61;
-}
-
-.LeftRight {
-    border-top: solid 5px white;
-    border-bottom: solid 5px white;
-}
-
-.TopBottom {
-    border-left: solid 5px white;
-    border-right: solid 5px white;
-}
-
-.Middle {
-    border: solid 5px white;
 }
 
 /* .App-logo {

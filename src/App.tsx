@@ -4,9 +4,9 @@ import './App.css';
 const X_PIECE = 'X';
 const O_PIECE = 'O';
 
-type gamepieceID = typeof X_PIECE | typeof O_PIECE | '';
+type gamepiece = typeof X_PIECE | typeof O_PIECE | '';
 
-let gameboard: gamepieceID[] = ['', '', '', '', '', '', '', '', ''];
+let gameboard: gamepiece[] = ['', '', '', '', '', '', '', '', ''];
 let winners = [
     [0, 1, 2],
     [3, 4, 5],
@@ -20,7 +20,7 @@ let winners = [
 
 type Props = { };
 type State = {
-    turn: boolean;
+    turn: boolean; // false = X.... true = O
     gameover: boolean;
 };
 class App extends Component<Props, State> {
@@ -38,23 +38,30 @@ class App extends Component<Props, State> {
     calculateMove(id: number) {
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
+                const button = document.getElementById(String(id))! as HTMLButtonElement;
+
                 if (this.state.turn) {
                     gameboard[id] = O_PIECE;
-                    document.getElementById(String(id))!.classList.add(O_PIECE);
+                    button.classList.add(O_PIECE);
                 } else {
                     gameboard[id] = X_PIECE;
-                    document.getElementById(String(id))!.classList.add(X_PIECE);
+                    button.classList.add(X_PIECE);
                 }
 
+                button.disabled = true;
+
                 winners.every((pair) => {
-                    if (
-                        gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]
-                    ) {
+                    if ( gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
                         if (gameboard[pair[0]] !== '') {
                             this.setState({ gameover: true });
                             document.getElementById(String(pair[0]))!.classList.add('Winner');
                             document.getElementById(String(pair[1]))!.classList.add('Winner');
                             document.getElementById(String(pair[2]))!.classList.add('Winner');
+
+                            gameboard.forEach((tile, idx) => {
+                                const button = document.getElementById(String(idx)) as HTMLButtonElement;
+                                button.disabled = true;
+                            });
 
                             return false;
                         }
@@ -68,7 +75,7 @@ class App extends Component<Props, State> {
         }
     }
 
-    handleTileClick = (ev: React.MouseEvent<HTMLDivElement>) => {
+    handleTileClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
         const id = (ev.target as HTMLElement).id;
         this.calculateMove(Number(id));
     };
@@ -77,72 +84,83 @@ class App extends Component<Props, State> {
         return (
             <div className="App">
                 <div className="Row">
-                    <div
-                        className="Tile"
-                        id="0"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[0]}
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="0"
+                            onClick={this.handleTileClick}>
+                            {gameboard[0]}
+                        </button>
                     </div>
-                    <div
-                        className="Tile TopBottom"
-                        id="1"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[1]}
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="1"
+                            onClick={this.handleTileClick}>
+                            {gameboard[1]}
+                        </button>
                     </div>
-                    <div
-                        className="Tile"
-                        id="2"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[2]}
-                    </div>
-                </div>
-                <div className="Row">
-                    <div
-                        className="Tile LeftRight"
-                        id="3"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[3]}
-                    </div>
-                    <div
-                        className="Tile Middle"
-                        id="4"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[4]}
-                    </div>
-                    <div
-                        className="Tile LeftRight"
-                        id="5"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[5]}
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="2"
+                            onClick={this.handleTileClick}>
+                            {gameboard[2]}
+                        </button>
                     </div>
                 </div>
+
                 <div className="Row">
-                    <div
-                        className="Tile"
-                        id="6"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[6]}
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="3"
+                            onClick={this.handleTileClick}>
+                            {gameboard[3]}
+                        </button>
                     </div>
-                    <div
-                        className="Tile TopBottom"
-                        id="7"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[7]}
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="4"
+                            onClick={this.handleTileClick}>
+                            {gameboard[4]}
+                        </button>
                     </div>
-                    <div
-                        className="Tile"
-                        id="8"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[8]}
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="5"
+                            onClick={this.handleTileClick}>
+                            {gameboard[5]}
+                        </button>
+                    </div>
+                </div>
+
+                <div className="Row">
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="6"
+                            onClick={this.handleTileClick}>
+                            {gameboard[6]}
+                        </button>
+                    </div>
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="7"
+                            onClick={this.handleTileClick}>
+                            {gameboard[7]}
+                        </button>
+                    </div>
+                    <div className="Tile">
+                        <button
+                            className="GamePiece"
+                            id="8"
+                            onClick={this.handleTileClick}>
+                            {gameboard[8]}
+                        </button>
                     </div>
                 </div>
             </div>
