@@ -35,7 +35,7 @@ class App extends Component<Props, State> {
         console.log('last updated: June 20, 2022');
     }
 
-    calculateMove(id: number) {
+    calculateMove(id: number, keyboardClick: boolean = false) {
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
                 const button = document.getElementById(String(id))! as HTMLButtonElement;
@@ -70,14 +70,31 @@ class App extends Component<Props, State> {
                     return true;
                 });
 
+                // Auto focus next possible space for keyboard users
+                if (keyboardClick) {
+                    let nextId = id + 1;
+                    while (gameboard[nextId] !== '') {
+                        nextId++;
+                        if (nextId >= gameboard.length) {
+                            nextId = 0;
+                        }
+                    }
+                    document.getElementById(String(nextId))!.focus();
+                }
+
                 this.setState({ turn: !this.state.turn });
             }
         }
     }
 
     handleTileClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
+        let keyboardClick = false;
+        if (ev.screenX === 0 && ev.screenY === 0) {
+            keyboardClick = true;
+        }
+
         const id = (ev.target as HTMLElement).id;
-        this.calculateMove(Number(id));
+        this.calculateMove(Number(id), keyboardClick);
     };
 
     render() {
