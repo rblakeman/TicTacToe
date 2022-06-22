@@ -32,27 +32,37 @@ class App extends Component<Props, State> {
             gameover: false
         };
 
-        console.log('last updated: June 20, 2022');
+        console.log('last updated: June 21, 2022');
     }
 
     calculateMove(id: number, keyboardClick: boolean = false) {
+        console.log('------------');
+        console.log('calculateMove()', id);
+        let gameEnded = false;
+
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
                 const button = document.getElementById(String(id))! as HTMLButtonElement;
+                console.log(button);
+
+                console.log('!gameover this.state.turn', this.state.turn);
 
                 if (this.state.turn) {
                     gameboard[id] = O_PIECE;
                     button.classList.add(O_PIECE);
+                    console.log('O_PIECE added');
                 } else {
                     gameboard[id] = X_PIECE;
                     button.classList.add(X_PIECE);
+                    console.log('X_PIECE added');
                 }
 
                 button.disabled = true;
 
                 winners.every((pair) => {
-                    if ( gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
+                    if (gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
                         if (gameboard[pair[0]] !== '') {
+                            gameEnded = true;
                             this.setState({ gameover: true });
                             document.getElementById(String(pair[0]))!.classList.add('Winner');
                             document.getElementById(String(pair[1]))!.classList.add('Winner');
@@ -70,19 +80,32 @@ class App extends Component<Props, State> {
                     return true;
                 });
 
-                // Auto focus next possible space for keyboard users
-                if (keyboardClick) {
-                    let nextId = id + 1;
-                    while (gameboard[nextId] !== '') {
-                        nextId++;
-                        if (nextId >= gameboard.length) {
-                            nextId = 0;
-                        }
+                const movesLeft = !gameboard.every((tile) => {
+                    if (tile === '') {
+                        return false;
                     }
-                    document.getElementById(String(nextId))!.focus();
+
+                    return true;
+                });
+
+                if (!gameEnded && movesLeft) {
+                    // Auto focus next possible space for keyboard users
+                    if (keyboardClick) {
+                        let nextId = id + 1;
+                        while (gameboard[nextId] !== '') {
+                            nextId++;
+                            if (nextId >= gameboard.length) {
+                                nextId = 0;
+                            }
+                            console.log('while', nextId);
+                        }
+                        document.getElementById(String(nextId))!.focus();
+                    }
+
+                    this.setState({ turn: !this.state.turn });
                 }
 
-                this.setState({ turn: !this.state.turn });
+                console.log('------------');
             }
         }
     }
