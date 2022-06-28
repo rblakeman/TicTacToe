@@ -32,7 +32,7 @@ class App extends Component<Props, State> {
             gameover: false
         };
 
-        console.log('last updated: June 20, 2022');
+        console.log('last updated: June 27, 2022');
     }
 
     calculateMove(id: number, keyboardClick: boolean = false) {
@@ -50,10 +50,9 @@ class App extends Component<Props, State> {
 
                 button.disabled = true;
 
-                winners.every((pair) => {
-                    if ( gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
+                const hasWinner = !winners.every((pair) => {
+                    if (gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
                         if (gameboard[pair[0]] !== '') {
-                            this.setState({ gameover: true });
                             document.getElementById(String(pair[0]))!.classList.add('Winner');
                             document.getElementById(String(pair[1]))!.classList.add('Winner');
                             document.getElementById(String(pair[2]))!.classList.add('Winner');
@@ -69,6 +68,20 @@ class App extends Component<Props, State> {
 
                     return true;
                 });
+
+                const movesLeft = !gameboard.every((tile) => {
+                    if (tile === '') {
+                        return false;
+                    }
+
+                    return true;
+                });
+
+                if (hasWinner || !movesLeft) {
+                    this.setState({ gameover: true });
+
+                    return;
+                }
 
                 // Auto focus next possible space for keyboard users
                 if (keyboardClick) {
