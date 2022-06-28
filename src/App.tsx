@@ -4,9 +4,9 @@ import './App.css';
 const X_PIECE = 'X';
 const O_PIECE = 'O';
 
-type gamepieceID = typeof X_PIECE | typeof O_PIECE | '';
+type gamepiece = typeof X_PIECE | typeof O_PIECE | '';
 
-let gameboard: gamepieceID[] = ['', '', '', '', '', '', '', '', ''];
+let gameboard: gamepiece[] = ['', '', '', '', '', '', '', '', ''];
 let winners = [
     [0, 1, 2],
     [3, 4, 5],
@@ -20,8 +20,9 @@ let winners = [
 
 type Props = { };
 type State = {
-    turn: boolean;
+    turn: boolean; // false = X.... true = O
     gameover: boolean;
+    winner: string;
 };
 class App extends Component<Props, State> {
     constructor(props: Props) {
@@ -29,32 +30,41 @@ class App extends Component<Props, State> {
 
         this.state = {
             turn: false,
-            gameover: false
+            gameover: false,
+            winner: ''
         };
 
-        console.log('last updated: June 20, 2022');
+        console.log('last updated: June 27, 2022');
     }
 
-    calculateMove(id: number) {
+    calculateMove(id: number, keyboardClick: boolean = false) {
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
+                const button = document.getElementById(String(id))! as HTMLButtonElement;
+
                 if (this.state.turn) {
                     gameboard[id] = O_PIECE;
-                    document.getElementById(String(id))!.classList.add(O_PIECE);
+                    button.classList.add(O_PIECE);
                 } else {
                     gameboard[id] = X_PIECE;
-                    document.getElementById(String(id))!.classList.add(X_PIECE);
+                    button.classList.add(X_PIECE);
                 }
 
-                winners.every((pair) => {
-                    if (
-                        gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]
-                    ) {
+                button.disabled = true;
+
+                const hasWinner = !winners.every((pair) => {
+                    if (gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
                         if (gameboard[pair[0]] !== '') {
-                            this.setState({ gameover: true });
+                            this.setState({ winner: this.state.turn ? O_PIECE : X_PIECE });
+
                             document.getElementById(String(pair[0]))!.classList.add('Winner');
                             document.getElementById(String(pair[1]))!.classList.add('Winner');
                             document.getElementById(String(pair[2]))!.classList.add('Winner');
+
+                            gameboard.forEach((tile, idx) => {
+                                const button = document.getElementById(String(idx)) as HTMLButtonElement;
+                                button.disabled = true;
+                            });
 
                             return false;
                         }
@@ -63,88 +73,122 @@ class App extends Component<Props, State> {
                     return true;
                 });
 
+                const movesLeft = !gameboard.every((tile) => {
+                    if (tile === '') {
+                        return false;
+                    }
+
+                    return true;
+                });
+
+                if (hasWinner || !movesLeft) {
+                    this.setState({ gameover: true });
+
+                    if (keyboardClick) {
+                        const restartButton = document.getElementsByClassName('Restart-Button')![0] as HTMLButtonElement;
+                        restartButton.disabled = false;
+                        restartButton.focus();
+                    }
+
+                    return;
+                }
+
+                // Auto focus next possible space for keyboard users
+                if (keyboardClick) {
+                    let nextId = id + 1;
+                    while (gameboard[nextId] !== '') {
+                        nextId++;
+                        if (nextId >= gameboard.length) {
+                            nextId = 0;
+                        }
+                    }
+                    document.getElementById(String(nextId))!.focus();
+                }
+
                 this.setState({ turn: !this.state.turn });
             }
         }
     }
 
-    handleTileClick = (ev: React.MouseEvent<HTMLDivElement>) => {
+    handleTileClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
+        let keyboardClick = false;
+        if (ev.screenX === 0 && ev.screenY === 0) {
+            keyboardClick = true;
+        }
+
         const id = (ev.target as HTMLElement).id;
-        this.calculateMove(Number(id));
+        this.calculateMove(Number(id), keyboardClick);
+    };
+
+    renderMessage = () => {
+        const { turn, gameover, winner } = this.state;
+
+        const prefix = () => {
+            if (gameover) {
+                if (winner) {
+                    return 'Winner: ';
+                }
+
+                return 'Cat\'s Game!';
+            }
+
+            return 'Player: ';
+        };
+
+        const player = () => {
+            if (gameover && !winner) {
+                return;
+            }
+
+            return (
+                turn ?
+                    <span className='O'>O</span> :
+                    <span className='X'>X</span>
+            );
+        };
+
+        return (
+            <div className="Message">
+                <button
+                    disabled={!this.state.gameover}
+                    className="Restart-Button Custom-Button"
+                    onClick={() => window.location.reload()}>
+                    {prefix()} {player()}
+                </button>
+            </div>
+        );
+    };
+
+    renderTiles = (ids: number[]) => {
+        return ids.map((id) => {
+            return (
+                <div className="Tile" key={`tile-${id}`}>
+                    <button
+                        className="GamePiece Custom-Button"
+                        id={String(id)}
+                        onClick={this.handleTileClick}>
+                        {gameboard[id]}
+                    </button>
+                </div>
+            );
+        });
     };
 
     render() {
         return (
             <div className="App">
-                <div className="Row">
-                    <div
-                        className="Tile"
-                        id="0"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[0]}
+                <div className="GameBoard">
+                    <div className="Row">
+                        {this.renderTiles([0,1,2])}
                     </div>
-                    <div
-                        className="Tile TopBottom"
-                        id="1"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[1]}
+                    <div className="Row">
+                        {this.renderTiles([3,4,5])}
                     </div>
-                    <div
-                        className="Tile"
-                        id="2"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[2]}
+                    <div className="Row">
+                        {this.renderTiles([6,7,8])}
                     </div>
                 </div>
-                <div className="Row">
-                    <div
-                        className="Tile LeftRight"
-                        id="3"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[3]}
-                    </div>
-                    <div
-                        className="Tile Middle"
-                        id="4"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[4]}
-                    </div>
-                    <div
-                        className="Tile LeftRight"
-                        id="5"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[5]}
-                    </div>
-                </div>
-                <div className="Row">
-                    <div
-                        className="Tile"
-                        id="6"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[6]}
-                    </div>
-                    <div
-                        className="Tile TopBottom"
-                        id="7"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[7]}
-                    </div>
-                    <div
-                        className="Tile"
-                        id="8"
-                        onClick={this.handleTileClick}
-                    >
-                        {gameboard[8]}
-                    </div>
-                </div>
+                {this.renderMessage()}
             </div>
         );
     }
