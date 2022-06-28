@@ -7,6 +7,12 @@
     min-height: 100vh;
 }
 
+.Message {
+    color: #DDDDDD;
+    font-size: 48px;
+    padding-top: 12px;
+}
+
 .Row {
     display: flex;
     flex-direction: row;
