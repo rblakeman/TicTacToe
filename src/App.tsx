@@ -159,89 +159,33 @@ class App extends Component<Props, State> {
         );
     };
 
+    renderTiles = (ids: number[]) => {
+        return ids.map((id) => {
+            return (
+                <div className="Tile" key={`tile-${id}`}>
+                    <button
+                        className="GamePiece Custom-Button"
+                        id={String(id)}
+                        onClick={this.handleTileClick}>
+                        {gameboard[id]}
+                    </button>
+                </div>
+            );
+        });
+    };
+
     render() {
         return (
             <div className="App">
                 <div className="GameBoard">
                     <div className="Row">
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="0"
-                                onClick={this.handleTileClick}>
-                                {gameboard[0]}
-                            </button>
-                        </div>
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="1"
-                                onClick={this.handleTileClick}>
-                                {gameboard[1]}
-                            </button>
-                        </div>
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="2"
-                                onClick={this.handleTileClick}>
-                                {gameboard[2]}
-                            </button>
-                        </div>
+                        {this.renderTiles([0,1,2])}
                     </div>
-
                     <div className="Row">
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="3"
-                                onClick={this.handleTileClick}>
-                                {gameboard[3]}
-                            </button>
-                        </div>
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="4"
-                                onClick={this.handleTileClick}>
-                                {gameboard[4]}
-                            </button>
-                        </div>
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="5"
-                                onClick={this.handleTileClick}>
-                                {gameboard[5]}
-                            </button>
-                        </div>
+                        {this.renderTiles([3,4,5])}
                     </div>
-
                     <div className="Row">
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="6"
-                                onClick={this.handleTileClick}>
-                                {gameboard[6]}
-                            </button>
-                        </div>
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="7"
-                                onClick={this.handleTileClick}>
-                                {gameboard[7]}
-                            </button>
-                        </div>
-                        <div className="Tile">
-                            <button
-                                className="GamePiece Custom-Button"
-                                id="8"
-                                onClick={this.handleTileClick}>
-                                {gameboard[8]}
-                            </button>
-                        </div>
+                        {this.renderTiles([6,7,8])}
                     </div>
                 </div>
                 {this.renderMessage()}
