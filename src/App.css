@@ -7,10 +7,32 @@
     min-height: 100vh;
 }
 
+.Custom-Button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 48px;
+    padding: 0px;
+}
+.Custom-Button:hover:enabled {
+    background-color: #505050;
+}
+.Custom-Button:focus-visible:enabled {
+    background-color: #505050;
+}
+.Custom-Button:disabled {
+    cursor: default;
+}
+
 .Message {
     color: #DDDDDD;
     font-size: 48px;
     padding-top: 12px;
+}
+
+.Restart-Button {
+    border-radius: 3px;
+    color: #DDDDDD;
 }
 
 .Row {
@@ -41,21 +63,7 @@
 .GamePiece {
     height: 100%;
     width: 100%;
-    background-color: transparent;
-    border: none;
     border-radius: 50%;
-    font-size: 48px;
-    padding: 0px;
-    cursor: pointer;
-}
-.GamePiece:hover:enabled {
-    background-color: #505050;
-}
-.GamePiece:focus-visible:enabled {
-    background-color: #505050;
-}
-.GamePiece:disabled {
-    cursor: default;
 }
 
 .O {

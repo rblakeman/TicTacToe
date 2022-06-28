@@ -84,6 +84,12 @@ class App extends Component<Props, State> {
                 if (hasWinner || !movesLeft) {
                     this.setState({ gameover: true });
 
+                    if (keyboardClick) {
+                        const restartButton = document.getElementsByClassName('Restart-Button')![0] as HTMLButtonElement;
+                        restartButton.disabled = false;
+                        restartButton.focus();
+                    }
+
                     return;
                 }
 
@@ -117,7 +123,7 @@ class App extends Component<Props, State> {
     renderMessage = () => {
         const { turn, gameover, winner } = this.state;
 
-        const message = () => {
+        const prefix = () => {
             if (gameover) {
                 if (winner) {
                     return 'Winner: ';
@@ -143,7 +149,12 @@ class App extends Component<Props, State> {
 
         return (
             <div className="Message">
-                {message()} {player()}
+                <button
+                    disabled={!this.state.gameover}
+                    className="Restart-Button Custom-Button"
+                    onClick={() => window.location.reload()}>
+                    {prefix()} {player()}
+                </button>
             </div>
         );
     };
@@ -155,7 +166,7 @@ class App extends Component<Props, State> {
                     <div className="Row">
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="0"
                                 onClick={this.handleTileClick}>
                                 {gameboard[0]}
@@ -163,7 +174,7 @@ class App extends Component<Props, State> {
                         </div>
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="1"
                                 onClick={this.handleTileClick}>
                                 {gameboard[1]}
@@ -171,7 +182,7 @@ class App extends Component<Props, State> {
                         </div>
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="2"
                                 onClick={this.handleTileClick}>
                                 {gameboard[2]}
@@ -182,7 +193,7 @@ class App extends Component<Props, State> {
                     <div className="Row">
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="3"
                                 onClick={this.handleTileClick}>
                                 {gameboard[3]}
@@ -190,7 +201,7 @@ class App extends Component<Props, State> {
                         </div>
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="4"
                                 onClick={this.handleTileClick}>
                                 {gameboard[4]}
@@ -198,7 +209,7 @@ class App extends Component<Props, State> {
                         </div>
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="5"
                                 onClick={this.handleTileClick}>
                                 {gameboard[5]}
@@ -209,7 +220,7 @@ class App extends Component<Props, State> {
                     <div className="Row">
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="6"
                                 onClick={this.handleTileClick}>
                                 {gameboard[6]}
@@ -217,7 +228,7 @@ class App extends Component<Props, State> {
                         </div>
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="7"
                                 onClick={this.handleTileClick}>
                                 {gameboard[7]}
@@ -225,7 +236,7 @@ class App extends Component<Props, State> {
                         </div>
                         <div className="Tile">
                             <button
-                                className="GamePiece"
+                                className="GamePiece Custom-Button"
                                 id="8"
                                 onClick={this.handleTileClick}>
                                 {gameboard[8]}
