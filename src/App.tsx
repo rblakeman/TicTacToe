@@ -6,8 +6,8 @@ const O_PIECE = 'O';
 
 type gamepiece = typeof X_PIECE | typeof O_PIECE | '';
 
-let gameboard: gamepiece[] = ['', '', '', '', '', '', '', '', ''];
-let winners = [
+const gameboard: gamepiece[] = ['', '', '', '', '', '', '', '', ''];
+const winners = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -15,10 +15,11 @@ let winners = [
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6]
+    [2, 4, 6],
 ];
 
-type Props = { };
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+type Props = {};
 type State = {
     turn: boolean; // false = X.... true = O
     gameover: boolean;
@@ -31,16 +32,18 @@ class App extends Component<Props, State> {
         this.state = {
             turn: false,
             gameover: false,
-            winner: ''
+            winner: '',
         };
 
-        console.log('last updated: June 27, 2022');
+        console.log('last updated: Oct 18, 2025');
     }
 
     calculateMove(id: number, keyboardClick: boolean = false) {
         if (!this.state.gameover) {
             if (gameboard[id] === '') {
-                const button = document.getElementById(String(id))! as HTMLButtonElement;
+                const button = document.getElementById(
+                    String(id),
+                )! as HTMLButtonElement;
 
                 if (this.state.turn) {
                     gameboard[id] = O_PIECE;
@@ -53,16 +56,29 @@ class App extends Component<Props, State> {
                 button.disabled = true;
 
                 const hasWinner = !winners.every((pair) => {
-                    if (gameboard[pair[0]] === gameboard[pair[1]] && gameboard[pair[1]] === gameboard[pair[2]]) {
+                    if (
+                        gameboard[pair[0]] === gameboard[pair[1]] &&
+                        gameboard[pair[1]] === gameboard[pair[2]]
+                    ) {
                         if (gameboard[pair[0]] !== '') {
-                            this.setState({ winner: this.state.turn ? O_PIECE : X_PIECE });
+                            this.setState({
+                                winner: this.state.turn ? O_PIECE : X_PIECE,
+                            });
 
-                            document.getElementById(String(pair[0]))!.classList.add('Winner');
-                            document.getElementById(String(pair[1]))!.classList.add('Winner');
-                            document.getElementById(String(pair[2]))!.classList.add('Winner');
+                            document
+                                .getElementById(String(pair[0]))!
+                                .classList.add('Winner');
+                            document
+                                .getElementById(String(pair[1]))!
+                                .classList.add('Winner');
+                            document
+                                .getElementById(String(pair[2]))!
+                                .classList.add('Winner');
 
-                            gameboard.forEach((tile, idx) => {
-                                const button = document.getElementById(String(idx)) as HTMLButtonElement;
+                            gameboard.forEach((_tile, idx) => {
+                                const button = document.getElementById(
+                                    String(idx),
+                                ) as HTMLButtonElement;
                                 button.disabled = true;
                             });
 
@@ -85,7 +101,9 @@ class App extends Component<Props, State> {
                     this.setState({ gameover: true });
 
                     if (keyboardClick) {
-                        const restartButton = document.getElementsByClassName('Restart-Button')![0] as HTMLButtonElement;
+                        const restartButton = document.getElementsByClassName(
+                            'Restart-Button',
+                        )![0] as HTMLButtonElement;
                         restartButton.disabled = false;
                         restartButton.focus();
                     }
@@ -129,7 +147,7 @@ class App extends Component<Props, State> {
                     return 'Winner: ';
                 }
 
-                return 'Cat\'s Game!';
+                return "Cat's Game!";
             }
 
             return 'Player: ';
@@ -140,18 +158,18 @@ class App extends Component<Props, State> {
                 return;
             }
 
-            return (
-                turn ?
-                    <span className='O'>O</span> :
-                    <span className='X'>X</span>
+            return turn ? (
+                <span className='O'>O</span>
+            ) : (
+                <span className='X'>X</span>
             );
         };
 
         return (
-            <div className="Message">
+            <div className='Message'>
                 <button
                     disabled={!this.state.gameover}
-                    className="Restart-Button Custom-Button"
+                    className='Restart-Button Custom-Button'
                     onClick={() => window.location.reload()}>
                     {prefix()} {player()}
                 </button>
@@ -162,9 +180,11 @@ class App extends Component<Props, State> {
     renderTiles = (ids: number[]) => {
         return ids.map((id) => {
             return (
-                <div className="Tile" key={`tile-${id}`}>
+                <div
+                    className='Tile'
+                    key={`tile-${id}`}>
                     <button
-                        className="GamePiece Custom-Button"
+                        className='GamePiece Custom-Button'
                         id={String(id)}
                         onClick={this.handleTileClick}>
                         {gameboard[id]}
@@ -176,17 +196,11 @@ class App extends Component<Props, State> {
 
     render() {
         return (
-            <div className="App">
-                <div className="GameBoard">
-                    <div className="Row">
-                        {this.renderTiles([0,1,2])}
-                    </div>
-                    <div className="Row">
-                        {this.renderTiles([3,4,5])}
-                    </div>
-                    <div className="Row">
-                        {this.renderTiles([6,7,8])}
-                    </div>
+            <div className='App'>
+                <div className='GameBoard'>
+                    <div className='Row'>{this.renderTiles([0, 1, 2])}</div>
+                    <div className='Row'>{this.renderTiles([3, 4, 5])}</div>
+                    <div className='Row'>{this.renderTiles([6, 7, 8])}</div>
                 </div>
                 {this.renderMessage()}
             </div>
