@@ -21,7 +21,7 @@
         "verify": "npm run format && npm run lint && npm run typecheck",
         "eject": "react-scripts eject",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d build"
+        "deploy": "gh-pages -d dist"
     },
     "engines": {
         "node": "^22.20.0"
